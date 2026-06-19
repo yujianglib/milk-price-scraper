@@ -14,6 +14,7 @@ const FALLBACK_URLS = [
   'https://www.cnhnb.com/price/search-n12-p1/',
 ];
 
+const { load } = require('cheerio');
 const OUTPUT = path.join(__dirname, '..', 'price.json');
 const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36';
 
@@ -172,7 +173,7 @@ function computeStats(days) {
       days = parseMoaResponse(moaData);
       console.log('[scraper] MOA parsed ' + days.length + ' days');
     } catch (err) {
-      console.warn('[scraper] MOA API failed: ' + err.message);
+      console.warn('[scraper] MOA API failed:', err.message || err.code || String(err));
     }
 
     // 方式2：惠农网备选
@@ -180,9 +181,7 @@ function computeStats(days) {
       for (const url of FALLBACK_URLS) {
         try {
           console.log('[scraper] fallback fetching: ' + url);
-          const html = await httpGet(url);
-          const { load } = require('cheerio');
-          const $ = load(html);
+          const html = await httpGet(url);          const $ = load(html);
           const prices = [];
           $('table tr').each((i, row) => {
             $(row).find('td').each((j, cell) => {
