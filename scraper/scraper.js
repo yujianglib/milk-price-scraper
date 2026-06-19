@@ -1,4 +1,4 @@
-const https = require('https');
+﻿const https = require('https');
 const fs = require('fs');
 const { load } = require('cheerio');
 const path = require('path');
@@ -22,14 +22,14 @@ const OUTPUT = path.join(__dirname, '..', 'price.json');
 const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
 
 // ========== ???? ==========
-function fetch(url) {
+function httpGet(url) {
   return new Promise((resolve, reject) => {
     const req = https.get(url, {
       headers: { 'User-Agent': USER_AGENT, 'Accept': 'text/html,application/xhtml+xml' },
       timeout: 15000
     }, (res) => {
       if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
-        return fetch(res.headers.location).then(resolve).catch(reject);
+        return httpGet(res.headers.location).then(resolve).catch(reject);
       }
       if (res.statusCode !== 200) {
         return reject(new Error('HTTP ' + res.statusCode));
@@ -59,7 +59,7 @@ function parsePriceTable(html) {
       cells.each((j, cell) => {
         const text = $(cell).text().trim();
         const num = parseFloat(text);
-        if (!isNaN(num) && num > 0 && num < 1000) {
+        if (!isNaN(num) && num >= 1.5 && num <= 20) {
           prices.push({ idx: i * 100 + j, price: num });
         }
       });
@@ -109,12 +109,16 @@ function mergeHistory(existing, newDays) {
     }
   }
 
-  // ??????????? 30 ?
-  merged.sort((a, b) => {
-    const [am, ad] = a.label.split('/').map(Number);
-    const [bm, bd] = b.label.split('/').map(Number);
-    return am !== bm ? am - bm : ad - bd;
-  });
+  // 按日期排序，保留最近 30 条
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const toDate = (label) => {
+    const [m, d] = label.split('/').map(Number);
+    // 若月份大于当前月份，视为上一年
+    const year = m > now.getMonth() + 1 ? currentYear - 1 : currentYear;
+    return new Date(year, m - 1, d);
+  };
+  merged.sort((a, b) => toDate(a.label) - toDate(b.label));
 
   return merged.slice(-30);
 }
@@ -159,7 +163,7 @@ function getFallbackDays() {
     for (const url of URLS) {
       try {
         console.log('[scraper] fetching: ' + url);
-        const html = await fetch(url);
+        const html = await httpGet(url);
         const prices = parsePriceTable(html);
         console.log('[scraper] got ' + prices.length + ' raw prices from ' + url);
 
