@@ -1,9 +1,9 @@
-name: ??????
+name: Milk Price Scraper
 
 on:
   schedule:
-    - cron: '0 0 * * *'      # ?? UTC 0:00 (???? 8:00)
-  workflow_dispatch:           # ??????
+    - cron: '0 0 * * *'
+  workflow_dispatch:
 
 jobs:
   scrape:
@@ -19,13 +19,13 @@ jobs:
         with:
           node-version: '20'
 
-      - name: ????
+      - name: Install deps
         run: npm install
 
-      - name: ??????
+      - name: Scrape prices
         run: node scraper/scraper.js
 
-      - name: ??????
+      - name: Commit data
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -33,16 +33,16 @@ jobs:
           git diff --staged --quiet || git commit -m "update: price data $(date +%Y-%m-%d)"
           git push
 
-      - name: ?? Pages ????
+      - name: Prepare Pages artifact
         run: |
           mkdir -p _site
           cp price.json _site/
 
-      - name: ?? Pages ??
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: _site
 
-      - name: ??? GitHub Pages
+      - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
