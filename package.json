@@ -1,0 +1,12 @@
+{
+  "name": "milk-price-scraper",
+  "version": "1.0.0",
+  "description": "?????? - ? cnhnb.com ??????????",
+  "main": "scraper/scraper.js",
+  "scripts": {
+    "start": "node scraper/scraper.js"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0"
+  }
+}
