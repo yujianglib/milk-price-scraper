@@ -1,6 +1,6 @@
 {
-  "updateTime": "2026-06-20T02:38:28.561Z",
-  "avg": 4.08,
+  "updateTime": "2026-06-21T02:54:45.830Z",
+  "avg": 4.06,
   "trend": -0.02,
   "trendAbs": 0.02,
   "days": [
@@ -18,26 +18,30 @@
     },
     {
       "label": "6/15",
-      "price": 3.97
+      "price": 3.93
     },
     {
       "label": "6/16",
-      "price": 4.07
+      "price": 3.97
     },
     {
       "label": "6/17",
-      "price": 4.18
+      "price": 4.07
     },
     {
       "label": "6/18",
-      "price": 4.23
+      "price": 4.18
     },
     {
       "label": "6/19",
-      "price": 4.19
+      "price": 4.23
     },
     {
       "label": "6/20",
+      "price": 4.19
+    },
+    {
+      "label": "6/21",
       "price": 4.08
     }
   ]
