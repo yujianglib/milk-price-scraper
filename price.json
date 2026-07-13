@@ -1,13 +1,9 @@
 {
-  "updateTime": "2026-07-12T01:57:39.516Z",
+  "updateTime": "2026-07-13T01:59:39.653Z",
   "avg": 3.97,
   "trend": 0.15,
   "trendAbs": 0.15,
   "days": [
-    {
-      "label": "6/13",
-      "price": 3.93
-    },
     {
       "label": "6/14",
       "price": 3.93
@@ -102,26 +98,30 @@
     },
     {
       "label": "7/7",
-      "price": 3.97
+      "price": 3.93
     },
     {
       "label": "7/8",
-      "price": 4.07
+      "price": 3.97
     },
     {
       "label": "7/9",
-      "price": 4.18
+      "price": 4.07
     },
     {
       "label": "7/10",
-      "price": 4.23
+      "price": 4.18
     },
     {
       "label": "7/11",
-      "price": 4.19
+      "price": 4.23
     },
     {
       "label": "7/12",
+      "price": 4.19
+    },
+    {
+      "label": "7/13",
       "price": 4.08
     }
   ]
